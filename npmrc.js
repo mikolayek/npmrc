@@ -4,23 +4,31 @@ const path = require('path')
     , fs   = require('fs')
     , os = require('os');
 
+const ttyreset = "\x1b[0m"
+    , ttyred = "\x1b[31m";
+
 
 const NPMRC_STORE = process.env.NPMRC_STORE || path.join(process.env.HOME || process.env.USERPROFILE, '.npmrcs')
     , NPMRC       = process.env.NPMRC || path.join(process.env.HOME || process.env.USERPROFILE, '.npmrc')
     , registries    = {
-        au: 'http://registry.npmjs.org.au/'
-      , eu: 'http://registry.npmjs.eu/'
-      , cn: 'http://r.cnpmjs.org/'
+        au: 'https://registry.npmjs.org.au/'
+      , eu: 'https://registry.npmmirror.com/'
+      , cn: 'https://r.cnpmjs.org/'
       , defaultReg: 'https://registry.npmjs.org/'
     }
-    , USAGE       = 'Usage:\n'
+    , USAGE       = ttyred
+                  + 'WARNING: Use verified mirrors only. Third party ones can eavesdropping your communication AND/OR host malicious libraries which may cause damage or mining crypto on your resources.\n'
+                  + 'DEPRECATION NOTE:\n'
+                  + 'Project is not maintained by the author, therefore I strongly recommend to switch to: nrm: https://www.npmjs.com/package/nrm \n'
+                  + ttyreset
+                  +'Usage:\n'
                   + '  npmrc                 list all profiles\n'
                   + '  npmrc [name]          change npmrc profile (uses fuzzy matching)\n'
                   + '  npmrc -c [name]       create a new npmrc profile called name\n'
                   + '  npmrc -r [registry]   use an npm mirror\n\n'
                   + 'Available mirrors for npmrc -r:\n'
                   + '  au      - Australian registry mirror\n'
-                  + '  eu      - European registry mirror\n'
+                  + '  eu      - European registry mirror (DE - Alibaba Cloud)\n'
                   + '  cn      - Chinese registry mirror\n'
                   + '  default - Default registry\n'
 
